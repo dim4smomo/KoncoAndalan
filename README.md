@@ -21,7 +21,7 @@ Halaman kuis mandiri berbasis HTML, CSS, dan JavaScript untuk berlatih soal pili
 
 ## Sumber data dan koneksi
 
-- **Endpoint API:** `http://temanandalan.lamongankab.go.id/api/admin/questions/all`
+- **Endpoint API:** `http://*****.go.id/api/admin/questions/all`
 - **Metode:** HTTP GET
 - Respons yang diharapkan berupa JSON dengan bentuk `{ "success": true, "data": [...] }`.
 - Halaman mencoba endpoint HTTPS dan HTTP, kemudian jalur proxy publik sebagai fallback. Proxy dapat tidak tersedia atau berubah sewaktu-waktu.
