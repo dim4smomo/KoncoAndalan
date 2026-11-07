@@ -86,6 +86,9 @@
 
     .api-meta { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, .65fr); gap: 9px; margin: 0 0 16px; }
     .meta-card { min-width: 0; padding: 12px 13px; border: 1px solid rgb(255 255 255 / 18%); border-radius: 16px; background: linear-gradient(145deg, rgb(255 255 255 / 12%), rgb(255 255 255 / 6%)); box-shadow: 0 10px 24px rgb(5 8 26 / 14%), inset 0 1px 0 rgb(255 255 255 / 9%); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); text-align: left; }
+    .question-id-button { display: block; width: 100%; color: inherit; cursor: pointer; font: inherit; text-align: left; }
+    .question-id-button:hover, .question-id-button[aria-expanded="true"] { border-color: rgb(255 179 107 / 65%); background: linear-gradient(145deg, rgb(255 155 82 / 22%), rgb(255 255 255 / 8%)); }
+    .question-id-button:focus-visible { outline: 2px solid #ffb36b; outline-offset: 2px; }
     .meta-label { display: block; margin-bottom: 6px; color: #d4d8f0; font-size: .68rem; font-weight: 600; letter-spacing: .04em; }
     .meta-value { display: block; overflow-wrap: anywhere; color: #fff; font-size: .88rem; font-weight: 750; line-height: 1.3; }
     .meta-value.good { color: #8dffca; }
@@ -141,6 +144,9 @@
     .feedback-answer { display: flex; min-height: 38px; align-items: center; gap: 8px; margin: 0; padding: 7px 10px; border: 1px solid rgb(166 148 255 / 48%); border-radius: 10px; background: linear-gradient(110deg, #35306f, #51408d 58%, #44366f); box-shadow: inset 0 1px 0 rgb(255 255 255 / 13%), 0 5px 15px rgb(5 26 29 / 18%); color: #e4ddff; font-size: .98rem; font-weight: 750; line-height: 1.3; overflow-wrap: anywhere; }
     .feedback-answer::before { display: grid; width: 21px; height: 21px; flex: 0 0 21px; place-items: center; border-radius: 50%; background: rgb(190 174 255 / 20%); color: #d3c7ff; content: "✓"; font-size: .78rem; font-weight: 800; }
     .feedback-explanation { display: block; margin: 0; padding: 5px 8px; border-left: 2px solid rgb(190 174 255 / 65%); border-radius: 0 7px 7px 0; color: #e1dcff; font-size: .78rem; font-weight: 500; line-height: 1.4; overflow-wrap: anywhere; }
+    .answer-reveal { display: grid; gap: 7px; margin: 10px 1px 0; padding: 10px 12px; border: 1px solid rgb(255 179 107 / 36%); border-radius: 12px; background: linear-gradient(110deg, rgb(255 155 82 / 12%), rgb(121 111 255 / 12%)); }
+    .answer-reveal[hidden] { display: none; }
+    .answer-reveal-title { margin: 0; color: #ffc078; font-size: .76rem; font-weight: 700; }
     .next-button, .retry-button { display: flex; width: 100%; min-height: 52px; align-items: center; justify-content: center; gap: 9px; margin-top: 15px; border: 0; border-radius: 15px; background: var(--gradient); color: #fff; cursor: pointer; font-size: .96rem; font-weight: 700; box-shadow: 0 9px 28px rgb(109 87 255 / 31%), inset 0 1px 0 rgb(255 255 255 / 25%); transition: transform .18s, filter .18s, box-shadow .18s; }
     .next-button:hover, .retry-button:hover { filter: brightness(1.1); box-shadow: 0 11px 34px rgb(109 87 255 / 45%), inset 0 1px 0 rgb(255 255 255 / 25%); }
     .next-button:active, .retry-button:active { transform: scale(.985); }
@@ -307,7 +313,7 @@
       <form id="login-form">
         <label class="login-label" for="login-password">Password</label>
         <div class="password-field">
-          <input class="login-input" id="login-password" name="password" type="password" inputmode="numeric" autocomplete="current-password" required autofocus>
+          <input class="login-input" id="login-password" name="password" type="password" autocomplete="current-password" required autofocus>
           <button class="password-toggle" id="password-toggle" type="button" aria-label="Tampilkan password" aria-pressed="false">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"></path>
@@ -355,10 +361,10 @@
         <span class="meta-label">JUMLAH DATA DIMUAT</span>
         <strong class="meta-value" id="loaded-count">—</strong>
       </div>
-      <div class="meta-card">
+      <button class="meta-card question-id-button" id="question-id-button" type="button" aria-controls="answer-reveal" aria-expanded="false" aria-label="Tampilkan jawaban dan rumus soal" disabled>
         <span class="meta-label">ID SOAL</span>
         <strong class="meta-value" id="current-question-id">—</strong>
-      </div>
+      </button>
     </section>
     <nav class="tabs" id="category-tabs" aria-label="Pilih kategori soal" hidden></nav>
 
@@ -390,6 +396,7 @@
         <h2 class="question" id="question-text"></h2>
         <div class="options" id="options" role="group" aria-label="Pilihan jawaban"></div>
         <p class="feedback" id="feedback" aria-live="polite"></p>
+        <div class="answer-reveal" id="answer-reveal" hidden aria-live="polite"></div>
         <button class="next-button" id="next-button" type="button" hidden>Soal berikutnya <span aria-hidden="true">→</span></button>
       </div>
       <div class="result" id="result" hidden aria-live="polite">
@@ -494,6 +501,7 @@
       httpStatus: document.getElementById("http-status"),
       fetchedAt: document.getElementById("fetched-at"),
       loadedCount: document.getElementById("loaded-count"),
+      questionIdButton: document.getElementById("question-id-button"),
       currentQuestionId: document.getElementById("current-question-id"),
       tabs: document.getElementById("category-tabs"),
       quiz: document.getElementById("quiz-content"),
@@ -507,6 +515,7 @@
       question: document.getElementById("question-text"),
       options: document.getElementById("options"),
       feedback: document.getElementById("feedback"),
+      answerReveal: document.getElementById("answer-reveal"),
       next: document.getElementById("next-button"),
       finalScore: document.getElementById("final-score"),
       finalTotal: document.getElementById("final-total"),
@@ -634,6 +643,9 @@
       const entry = quizQuestions[currentIndex];
       const item = entry.question;
       if (entry.repeat) pendingRepeats.delete(item);
+      ui.questionIdButton.disabled = false;
+      ui.questionIdButton.setAttribute("aria-expanded", "false");
+      ui.questionIdButton.setAttribute("aria-label", "Tampilkan jawaban dan rumus soal " + String(item.id ?? ""));
       ui.currentQuestionId.textContent = String(item.id ?? "—");
       ui.questionCount.textContent = entry.repeat
         ? "Ulangi soal · Benar " + correctCount + " dari " + totalQuestions
@@ -647,6 +659,8 @@
       ui.question.classList.add("question-enter");
       ui.feedback.textContent = "";
       ui.feedback.className = "feedback";
+      ui.answerReveal.hidden = true;
+      ui.answerReveal.replaceChildren();
       ui.next.hidden = true;
       ui.next.textContent = currentIndex === quizQuestions.length - 1 ? "Lihat hasil" : "Soal berikutnya →";
       ui.options.replaceChildren();
@@ -670,6 +684,37 @@
         ui.options.append(button);
       });
       updateProgress();
+    }
+
+    function toggleAnswerReveal() {
+      if (ui.quiz.hidden || !quizQuestions.length) return;
+      if (!ui.answerReveal.hidden) {
+        ui.answerReveal.hidden = true;
+        ui.questionIdButton.setAttribute("aria-expanded", "false");
+        ui.questionIdButton.setAttribute("aria-label", "Tampilkan jawaban dan rumus soal");
+        return;
+      }
+
+      const item = quizQuestions[currentIndex].question;
+      const rightAnswer = item.answers.find((answer) => answer.key === item.correctKey);
+      const title = document.createElement("p");
+      title.className = "answer-reveal-title";
+      title.textContent = "Jawaban yang benar";
+      const answerText = document.createElement("strong");
+      answerText.className = "feedback-answer";
+      answerText.textContent = rightAnswer.letter + ". " + rightAnswer.text;
+      const details = [title, answerText];
+      const explanation = MATH_EXPLANATIONS[String(item.id)];
+      if (explanation) {
+        const explanationText = document.createElement("span");
+        explanationText.className = "feedback-explanation";
+        explanationText.textContent = "Rumus: " + explanation;
+        details.push(explanationText);
+      }
+      ui.answerReveal.replaceChildren(...details);
+      ui.answerReveal.hidden = false;
+      ui.questionIdButton.setAttribute("aria-expanded", "true");
+      ui.questionIdButton.setAttribute("aria-label", "Sembunyikan jawaban dan rumus soal");
     }
 
     function selectAnswer(selectedButton, selectedAnswer, item) {
@@ -734,6 +779,9 @@
 
     function renderResult() {
       hidePanels();
+      ui.questionIdButton.disabled = true;
+      ui.answerReveal.hidden = true;
+      ui.questionIdButton.setAttribute("aria-expanded", "false");
       ui.result.hidden = false;
       const total = totalQuestions;
       const percentage = total ? Math.round((correctCount / total) * 100) : 0;
@@ -759,6 +807,7 @@
       solvedQuestions = new Set();
       pendingRepeats = new Set();
       if (!quizQuestions.length) {
+        ui.questionIdButton.disabled = true;
         hidePanels();
         ui.empty.hidden = false;
         return;
@@ -865,6 +914,9 @@
       ui.fetchedAt.textContent = "—";
       ui.loadedCount.textContent = "—";
       ui.currentQuestionId.textContent = "—";
+      ui.questionIdButton.disabled = true;
+      ui.questionIdButton.setAttribute("aria-expanded", "false");
+      ui.answerReveal.hidden = true;
       try {
         const loaded = await fetchQuestions();
         if (generation !== loadGeneration) return;
@@ -902,7 +954,7 @@
 
     ui.loginForm.addEventListener("submit", (event) => {
       event.preventDefault();
-      const validPasswords = ["0", "dimas", "kuntho", "1", "2", "3"];
+      const validPasswords = ["a1", "a2", "a3", "a4", "a5"];
       if (!validPasswords.includes(ui.loginPassword.value)) {
         ui.loginError.textContent = "Password tidak sesuai. Silakan coba lagi.";
         ui.loginPassword.select();
@@ -916,6 +968,7 @@
       loadData();
     });
 
+    ui.questionIdButton.addEventListener("click", toggleAnswerReveal);
     ui.reload.addEventListener("click", loadData);
     ui.retry.addEventListener("click", loadData);
     ui.next.addEventListener("click", () => {
