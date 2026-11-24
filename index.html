@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#11142f">
-  <title>Latihan Soal · RENCANG ANDALAN</title>
+  <title>Latihan Soal · TEMAN ANDALAN</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -108,17 +108,8 @@
     .card::before { position: absolute; top: 0; right: 12%; left: 12%; height: 1px; background: linear-gradient(90deg, transparent, rgb(255 255 255 / 72%), transparent); content: ""; }
     .quiz-card { min-height: 300px; padding: 22px 18px 18px; border-left: 5px solid var(--orange); }
     .quiz-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .question-navigation { display: flex; min-width: 0; align-items: center; }
     .score-summary { display: flex; align-items: center; gap: 10px; }
     .question-count { margin: 0; color: #eceeff; font-size: .84rem; font-weight: 700; }
-    .question-dots { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 10px; }
-    .question-dot { display: grid; width: 23px; height: 23px; flex: 0 0 23px; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
-    .question-dot::before { width: 12px; height: 12px; border: 1px solid var(--line); border-radius: 50%; background: rgb(255 255 255 / 10%); content: ""; transition: background .18s, border-color .18s, box-shadow .18s, transform .18s; }
-    .question-dot:hover::before { transform: scale(1.18); border-color: #ffb36b; }
-    .question-dot.correct::before { border-color: #35efb2; background: #35efb2; }
-    .question-dot.wrong::before { border-color: #ff6b78; background: #ff6b78; }
-    .question-dot[aria-current="step"]::before { box-shadow: 0 0 0 2px #ffb36b; }
-    .question-dot:focus-visible { outline: 2px solid #ffb36b; outline-offset: 1px; }
     .score-count { margin: 0; color: #d3d5ed; font-size: .8rem; }
     .score-count strong { color: #fff; }
     .progress-track { height: 7px; overflow: hidden; margin: 14px 0 21px; border-radius: 99px; background: rgb(255 255 255 / 12%); }
@@ -184,11 +175,6 @@
     .result-stats { display: flex; justify-content: center; gap: 24px; margin-bottom: 22px; }
     .result-stat strong { display: block; font-size: 1.1rem; }
     .result-stat span { color: var(--muted); font-size: .78rem; }
-    .review-actions { display: grid; gap: 9px; margin-bottom: 8px; }
-    .review-actions[hidden] { display: none; }
-    .review-prompt { margin: 0 0 2px; color: #e5e6f4; font-size: .9rem; font-weight: 600; }
-    .review-button { min-height: 46px; margin-top: 0; border: 1px solid rgb(255 179 107 / 38%); background: rgb(255 255 255 / 8%); box-shadow: none; }
-    .review-button:hover { border-color: #ffb36b; background: rgb(255 155 82 / 18%); box-shadow: 0 8px 20px rgb(255 155 82 / 12%); }
 
     .footer { margin: 16px 3px 0; color: rgb(220 222 243 / 70%); font-size: .74rem; line-height: 1.55; text-align: center; }
     .footer strong { color: #fff; }
@@ -353,7 +339,7 @@
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">✦</div>
         <div>
-          <p class="brand-name">RENCANG ANDALAN</p>
+          <p class="brand-name">TEMAN ANDALAN</p>
           <p class="brand-caption">Kabupaten Lamongan</p>
         </div>
       </div>
@@ -365,7 +351,7 @@
 
     <section class="hero">
       <p class="eyebrow">Ruang latihan</p>
-      <h1>RENCANG ANDALAN</h1>
+      <h1>Siap mengasah kemampuanmu?</h1>
       <p class="intro">Pilih jawaban terbaik dan lihat seberapa jauh kamu melangkah.</p>
     </section>
 
@@ -405,9 +391,7 @@
       </div>
       <div class="quiz-content" id="quiz-content" hidden>
         <div class="quiz-header">
-          <div class="question-navigation">
-            <p class="question-count" id="question-count"></p>
-          </div>
+          <p class="question-count" id="question-count"></p>
           <div class="score-summary">
             <p class="score-count">Benar: <strong id="score-count">0</strong></p>
             <p class="score-count">Salah: <strong id="wrong-count">0</strong></p>
@@ -422,7 +406,6 @@
         <p class="feedback" id="feedback" aria-live="polite"></p>
         <div class="answer-reveal" id="answer-reveal" hidden aria-live="polite"></div>
         <button class="next-button" id="next-button" type="button" hidden>Soal berikutnya <span aria-hidden="true">→</span></button>
-        <nav class="question-dots" id="question-dots" aria-label="Navigasi soal"></nav>
       </div>
       <div class="result" id="result" hidden aria-live="polite">
         <div class="result-icon" aria-hidden="true">🦉</div>
@@ -435,11 +418,6 @@
         <div class="result-stats">
           <div class="result-stat"><strong id="final-total"></strong><span>Total soal</span></div>
           <div class="result-stat"><strong id="final-percent"></strong><span>Nilai</span></div>
-        </div>
-        <div class="review-actions" id="review-actions" hidden>
-          <p class="review-prompt" id="review-prompt"></p>
-          <button class="retry-button review-button" id="study-missed-button" type="button">Pelajari soal yang salah</button>
-          <button class="retry-button review-button" id="redo-missed-button" type="button">Kerjakan ulang soal yang salah</button>
         </div>
         <button class="retry-button" id="retry-quiz-button" type="button">Ulangi latihan</button>
       </div>
@@ -539,7 +517,6 @@
       quiz: document.getElementById("quiz-content"),
       result: document.getElementById("result"),
       questionCount: document.getElementById("question-count"),
-      questionDots: document.getElementById("question-dots"),
       scoreCount: document.getElementById("score-count"),
       wrongCount: document.getElementById("wrong-count"),
       progress: document.getElementById("progress-track"),
@@ -553,11 +530,7 @@
       finalScore: document.getElementById("final-score"),
       finalTotal: document.getElementById("final-total"),
       finalPercent: document.getElementById("final-percent"),
-      resultCopy: document.getElementById("result-copy"),
-      reviewActions: document.getElementById("review-actions"),
-      reviewPrompt: document.getElementById("review-prompt"),
-      studyMissed: document.getElementById("study-missed-button"),
-      redoMissed: document.getElementById("redo-missed-button")
+      resultCopy: document.getElementById("result-copy")
     };
 
     let questions = [];
@@ -567,12 +540,8 @@
     let totalQuestions = 0;
     let correctCount = 0;
     let wrongCount = 0;
-    let missedQuestions = [];
-    let reviewMode = "initial";
-    let reviewCorrectCount = 0;
-    let reviewWrongCount = 0;
-    let initialAnswers = new Map();
-    let reviewAnswers = new Map();
+    let solvedQuestions = new Set();
+    let pendingRepeats = new Set();
     let answered = false;
     let loadGeneration = 0;
 
@@ -667,43 +636,9 @@
     }
 
     function updateProgress() {
-      const progressCount = reviewMode === "initial"
-        ? initialAnswers.size
-        : reviewMode === "study"
-          ? currentIndex + 1
-          : reviewAnswers.size;
-      const progressTotal = reviewMode === "initial" ? totalQuestions : quizQuestions.length;
-      const percent = progressTotal ? (progressCount / progressTotal) * 100 : 0;
+      const percent = totalQuestions ? (correctCount / totalQuestions) * 100 : 0;
       ui.progressFill.style.width = percent + "%";
       ui.progress.setAttribute("aria-valuenow", String(Math.round(percent)));
-    }
-
-    function currentAnswerMap() {
-      return reviewMode === "initial" ? initialAnswers : reviewAnswers;
-    }
-
-    function updateQuestionDots() {
-      const answerMap = reviewMode === "study" ? initialAnswers : currentAnswerMap();
-      ui.questionDots.replaceChildren();
-      quizQuestions.forEach((entry, index) => {
-        const button = document.createElement("button");
-        const savedAnswer = answerMap.get(entry.question);
-        const questionNumber = index + 1;
-        const status = reviewMode === "study"
-          ? savedAnswer ? "salah pada percobaan pertama" : "belum dipelajari"
-          : savedAnswer ? savedAnswer.isCorrect ? "dijawab benar" : "dijawab salah" : "belum dijawab";
-        button.type = "button";
-        button.className = "question-dot";
-        button.setAttribute("aria-label", "Soal " + questionNumber + ", " + status);
-        button.title = "Soal " + questionNumber + " · " + status;
-        if (index === currentIndex) button.setAttribute("aria-current", "step");
-        if (savedAnswer) button.classList.add(savedAnswer.isCorrect ? "correct" : "wrong");
-        button.addEventListener("click", () => {
-          currentIndex = index;
-          renderQuestion();
-        });
-        ui.questionDots.append(button);
-      });
     }
 
     function renderQuestion() {
@@ -717,18 +652,16 @@
       answered = false;
       const entry = quizQuestions[currentIndex];
       const item = entry.question;
+      if (entry.repeat) pendingRepeats.delete(item);
       ui.questionIdButton.disabled = false;
       ui.questionIdButton.setAttribute("aria-expanded", "false");
       ui.questionIdButton.setAttribute("aria-label", "Tampilkan jawaban dan rumus soal " + String(item.id ?? ""));
       ui.currentQuestionId.textContent = String(item.id ?? "—");
-      ui.questionCount.textContent = reviewMode === "study"
-        ? "Pelajari soal salah " + (currentIndex + 1) + " dari " + quizQuestions.length
-        : reviewMode === "redo"
-          ? "Kerjakan ulang " + (currentIndex + 1) + " dari " + quizQuestions.length
-          : "Soal " + (currentIndex + 1) + " dari " + totalQuestions;
-      ui.scoreCount.textContent = String(reviewMode === "redo" ? reviewCorrectCount : correctCount);
-      ui.wrongCount.textContent = String(reviewMode === "redo" ? reviewWrongCount : wrongCount);
-      updateQuestionDots();
+      ui.questionCount.textContent = entry.repeat
+        ? "Ulangi soal · Benar " + correctCount + " dari " + totalQuestions
+        : "Soal " + (currentIndex + 1) + " dari " + totalQuestions;
+      ui.scoreCount.textContent = String(correctCount);
+      ui.wrongCount.textContent = String(wrongCount);
       ui.category.textContent = categoryName(item.category);
       ui.question.textContent = item.question;
       ui.question.classList.remove("question-enter");
@@ -738,9 +671,8 @@
       ui.feedback.className = "feedback";
       ui.answerReveal.hidden = true;
       ui.answerReveal.replaceChildren();
-      const savedAnswer = currentAnswerMap().get(item);
-      ui.next.hidden = !savedAnswer && reviewMode !== "study";
-      ui.next.textContent = getNextButtonText();
+      ui.next.hidden = true;
+      ui.next.textContent = currentIndex === quizQuestions.length - 1 ? "Lihat hasil" : "Soal berikutnya →";
       ui.options.replaceChildren();
 
       item.answers.forEach((answer) => {
@@ -748,16 +680,6 @@
         button.type = "button";
         button.className = "option";
         button.dataset.key = answer.key;
-        if (reviewMode === "study") {
-          button.disabled = true;
-          if (answer.key === item.correctKey) button.classList.add("correct");
-          else button.classList.add("dimmed");
-        } else if (savedAnswer) {
-          button.disabled = true;
-          if (answer.key === item.correctKey) button.classList.add("correct");
-          else if (!savedAnswer.isCorrect && answer.key === savedAnswer.selectedKey) button.classList.add("wrong");
-          else button.classList.add("dimmed");
-        }
         const letter = document.createElement("span");
         letter.className = "option-letter";
         letter.textContent = answer.letter;
@@ -771,25 +693,7 @@
         button.addEventListener("click", () => selectAnswer(button, answer, item));
         ui.options.append(button);
       });
-      if (reviewMode === "study") {
-        answered = true;
-        ui.quiz.classList.add("answered");
-        renderAnswerFeedback(item, true, "Jawaban untuk dipelajari");
-        ui.next.hidden = false;
-      } else if (savedAnswer) {
-        answered = true;
-        ui.quiz.classList.add("answered");
-        renderAnswerFeedback(item, savedAnswer.isCorrect);
-      }
       updateProgress();
-    }
-
-    function getNextButtonText() {
-      if (reviewMode === "initial" && initialAnswers.size === totalQuestions) return "Lihat hasil";
-      if (currentIndex < quizQuestions.length - 1) return "Soal berikutnya →";
-      if (reviewMode === "study") return "Selesai belajar";
-      if (reviewMode === "redo") return "Selesai mengulang";
-      return reviewMode === "initial" ? "Soal berikutnya →" : "Lihat hasil";
     }
 
     function toggleAnswerReveal() {
@@ -855,46 +759,25 @@
       ui.answerKeyButton.setAttribute("aria-label", "Sembunyikan semua jawaban soal");
     }
 
-    function renderAnswerFeedback(item, isCorrect, labelText) {
-      ui.feedback.className = "feedback " + (isCorrect ? "good" : "bad");
-      const rightAnswer = item.answers.find((answer) => answer.key === item.correctKey);
-      const label = document.createElement("span");
-      label.className = "feedback-label";
-      label.textContent = labelText || (isCorrect ? "Benar!" : "Jawaban yang benar");
-      const answerText = document.createElement("strong");
-      answerText.className = "feedback-answer";
-      answerText.textContent = rightAnswer.letter + ". " + rightAnswer.text;
-      ui.feedback.replaceChildren(label, answerText);
-
-      const explanation = MATH_EXPLANATIONS[String(item.id)];
-      if (explanation) {
-        const explanationText = document.createElement("span");
-        explanationText.className = "feedback-explanation";
-        explanationText.textContent = "Rumus: " + explanation;
-        ui.feedback.append(explanationText);
-      }
-    }
-
     function selectAnswer(selectedButton, selectedAnswer, item) {
-      if (answered || reviewMode === "study") return;
+      if (answered) return;
       answered = true;
       ui.quiz.classList.add("answered");
       const isCorrect = selectedAnswer.key === item.correctKey;
-      if (reviewMode === "initial") {
-        initialAnswers.set(item, { selectedKey: selectedAnswer.key, isCorrect });
-        if (isCorrect) {
-          correctCount += 1;
-        } else {
-          wrongCount += 1;
-          missedQuestions.push(item);
+      if (isCorrect) {
+        if (!solvedQuestions.has(item)) {
+          solvedQuestions.add(item);
+          correctCount = solvedQuestions.size;
         }
       } else {
-        reviewAnswers.set(item, { selectedKey: selectedAnswer.key, isCorrect });
-        if (isCorrect) reviewCorrectCount += 1;
-        else reviewWrongCount += 1;
+        wrongCount += 1;
+        if (!pendingRepeats.has(item)) {
+          pendingRepeats.add(item);
+          quizQuestions.push({ question: item, repeat: true });
+        }
       }
-      ui.scoreCount.textContent = String(reviewMode === "redo" ? reviewCorrectCount : correctCount);
-      ui.wrongCount.textContent = String(reviewMode === "redo" ? reviewWrongCount : wrongCount);
+      ui.scoreCount.textContent = String(correctCount);
+      ui.wrongCount.textContent = String(wrongCount);
       updateProgress();
 
       ui.options.querySelectorAll(".option").forEach((button) => {
@@ -908,12 +791,31 @@
         }
       });
 
-      if (navigator.vibrate) navigator.vibrate(isCorrect ? 24 : [45, 35, 45]);
-      renderAnswerFeedback(item, isCorrect);
+      if (isCorrect) {
+        ui.feedback.classList.add("good");
+        if (navigator.vibrate) navigator.vibrate(24);
+      } else {
+        ui.feedback.classList.add("bad");
+        if (navigator.vibrate) navigator.vibrate([45, 35, 45]);
+      }
+      const rightAnswer = item.answers.find((answer) => answer.key === item.correctKey);
+      const label = document.createElement("span");
+      label.className = "feedback-label";
+      label.textContent = isCorrect ? "Benar!" : "Jawaban yang benar";
+      const answerText = document.createElement("strong");
+      answerText.className = "feedback-answer";
+      answerText.textContent = rightAnswer.letter + ". " + rightAnswer.text;
+      ui.feedback.replaceChildren(label, answerText);
+      const explanation = MATH_EXPLANATIONS[String(item.id)];
+      if (explanation) {
+        const explanationText = document.createElement("span");
+        explanationText.className = "feedback-explanation";
+        explanationText.textContent = "Rumus: " + explanation;
+        ui.feedback.append(explanationText);
+      }
 
       ui.next.hidden = false;
-      ui.next.textContent = getNextButtonText();
-      updateQuestionDots();
+      ui.next.textContent = currentIndex === quizQuestions.length - 1 ? "Lihat hasil" : "Soal berikutnya →";
       ui.next.focus({ preventScroll: true });
     }
 
@@ -930,13 +832,9 @@
       ui.finalPercent.textContent = percentage + "%";
       ui.resultCopy.textContent = percentage === 100
         ? "Luar biasa! Semua jawabanmu benar."
-        : "Nilai ini dihitung dari percobaan pertama. Kamu salah menjawab " +
-          wrongCount.toLocaleString("id-ID") + " dari " + total.toLocaleString("id-ID") +
-          " soal. Kamu bisa mempelajari atau mengerjakan ulang soal yang salah tanpa mengubah nilai ini.";
-      ui.reviewActions.hidden = missedQuestions.length === 0;
-      ui.reviewPrompt.textContent = missedQuestions.length
-        ? "Mau mempelajari kembali " + missedQuestions.length.toLocaleString("id-ID") + " soal yang salah?"
-        : "";
+        : percentage >= 70
+          ? "Bagus! Terus pertahankan dan tingkatkan hasilmu."
+          : "Terus berlatih, setiap langkah membuatmu lebih siap.";
       ui.progressFill.style.width = "100%";
       ui.progress.setAttribute("aria-valuenow", "100");
     }
@@ -948,29 +846,14 @@
       currentIndex = 0;
       correctCount = 0;
       wrongCount = 0;
-      missedQuestions = [];
-      reviewMode = "initial";
-      reviewCorrectCount = 0;
-      reviewWrongCount = 0;
-      initialAnswers = new Map();
-      reviewAnswers = new Map();
+      solvedQuestions = new Set();
+      pendingRepeats = new Set();
       if (!quizQuestions.length) {
         ui.questionIdButton.disabled = true;
         hidePanels();
         ui.empty.hidden = false;
         return;
       }
-      renderQuestion();
-    }
-
-    function startMissedQuestions(mode) {
-      if (!missedQuestions.length) return;
-      reviewMode = mode;
-      quizQuestions = missedQuestions.map((question) => ({ question, repeat: true }));
-      currentIndex = 0;
-      reviewCorrectCount = 0;
-      reviewWrongCount = 0;
-      reviewAnswers = new Map();
       renderQuestion();
     }
 
@@ -1139,32 +1022,12 @@
     ui.answerKeyButton.addEventListener("click", toggleAnswerKey);
     ui.reload.addEventListener("click", loadData);
     ui.retry.addEventListener("click", loadData);
-    ui.studyMissed.addEventListener("click", () => startMissedQuestions("study"));
-    ui.redoMissed.addEventListener("click", () => startMissedQuestions("redo"));
     ui.next.addEventListener("click", () => {
       if (!answered) return;
-      if (reviewMode === "initial") {
-        if (initialAnswers.size === totalQuestions) {
-          renderResult();
-          return;
-        }
-        for (let offset = 1; offset <= quizQuestions.length; offset += 1) {
-          const candidateIndex = (currentIndex + offset) % quizQuestions.length;
-          if (!initialAnswers.has(quizQuestions[candidateIndex].question)) {
-            currentIndex = candidateIndex;
-            renderQuestion();
-            return;
-          }
-        }
-        return;
-      }
-
       if (currentIndex < quizQuestions.length - 1) {
         currentIndex += 1;
         renderQuestion();
       } else {
-        if (reviewMode !== "study" && reviewMode !== "redo") return;
-        reviewMode = "initial";
         renderResult();
       }
     });
